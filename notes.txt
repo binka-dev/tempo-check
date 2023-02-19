@@ -1,0 +1,10 @@
+## Todos:
+Notification
+background ja / nein
+No Permissions
+Test im Reallive
+Seminararbeit
+
+
+Inhalt Seminararbeit:
+- Schwierigkeiten: Android und iOS Differenz im Verhalten

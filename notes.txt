@@ -1,10 +1,15 @@
 ## Todos:
-Notification
-background ja / nein
-No Permissions
+Test auf Android
 Test im Reallive
+Logos
 Seminararbeit
+-> Github?
 
 
 Inhalt Seminararbeit:
+- Aufbau der App
+- Funktionen der App
+  - Berechnung der Differenzgeschwindigkeit
+- UI Elemente der App
+- Verwendete Libraries
 - Schwierigkeiten: Android und iOS Differenz im Verhalten

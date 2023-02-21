@@ -78,7 +78,7 @@ function DriveDetailScreen() {
                         minimumValue={10}
                         step={10}
                         maximumValue={maxSpeed}
-                        value={speedLimit}
+                        value={speedLimit > maxSpeed ? maxSpeed : speedLimit}
                         onValueChange={value => setSpeedLimit(value as number)}
                     />
                 </View>

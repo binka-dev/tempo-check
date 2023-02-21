@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Provider as PaperProvider } from 'react-native-paper';
-import BottomTabNavigator from './views/navigator/BottomTabNavigator';
+import { Provider as PaperProvider, MD3LightTheme } from 'react-native-paper';
 import LocationTracking from './service/LocationTracking';
 import { Provider } from 'react-redux';
 import { store } from './redux/Store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoadingScreen from './views/LoadingScreen';
 import { loadPreviousTracks } from './redux/slices/location/TrackingSlice';
+import MainStackNavigator from './views/navigator/MainStackNavigator';
+import { AppState } from 'react-native';
 
 function App(): JSX.Element {
 
@@ -14,9 +15,20 @@ function App(): JSX.Element {
 
   useEffect(() => {
     const locationTracking = new LocationTracking(store)
-    locationTracking.startTrackingIfNotAlreadyStarted()
+    if (AppState.currentState === 'active') {
+      locationTracking.startTrackingIfNotAlreadyStarted()
+    }
+
+    const subscription = AppState.addEventListener('change', (state) => {
+      if (state === 'active') {
+        locationTracking.startTrackingIfNotAlreadyStarted()
+      } else {
+        locationTracking.stopTracking()
+      }
+    })
     return () => {
       locationTracking.stopTracking()
+      subscription.remove()
     }
   }, []);
 
@@ -34,9 +46,9 @@ function App(): JSX.Element {
     return (<PaperProvider><LoadingScreen/></PaperProvider>)
   } else {
     return (
-      <PaperProvider>
+      <PaperProvider theme={MD3LightTheme}>
         <Provider store={store}>
-          <BottomTabNavigator/>
+          <MainStackNavigator/>
         </Provider>
       </PaperProvider>
     )

@@ -37,10 +37,10 @@
 	</dict>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Die App benötigt Zugriff auf deinen Standort um deine Fahrten aufzuzeichnen.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Die App benötigt Zugriff auf deinen Standort um deine Fahrten aufzuzeichnen.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Die App benötigt Zugriff auf deinen Standort um deine Fahrten aufzuzeichnen.</string>
+	<key>NSUserNotificationsUsageDescription</key>
+	<string>Erhalte Benachrichtigungen wenn die Aufzeichnung startet oder beendet wird.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FontAwesome.ttf</string>
@@ -60,12 +60,6 @@
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
 	</array>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>fetch</string>
-		<string>location</string>
-		<string>processing</string>
-	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -75,8 +69,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>

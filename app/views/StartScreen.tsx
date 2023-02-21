@@ -4,18 +4,23 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Card, Text } from 'react-native-paper';
 import { useAppSelector } from '../hooks';
 import DriveTrackCardComponent from './components/DriveTrackCardComponent';
+import { useKeepAwake } from '@sayem314/react-native-keep-awake';
 
 function StartScreen({navigation}: {navigation: any}) {
 
-    let [noPermissions, setNoPermissions] = useState(false)
+    useKeepAwake()
 
-    const current_speed = useAppSelector(state => state.location_tracking.speed)
+
+    const showDebugCard = true
+
+    const current_location = useAppSelector(state => state.location_tracking.current_location)
     const tracking_status = useAppSelector(state => state.location_tracking.tracking)
     const past_trips = useAppSelector(state => state.location_tracking.past_tracks)
+    const location_permissions = useAppSelector(state => state.permissions.location_allowed)
     const past_trips_sorted = Array.from(past_trips).sort((a, b) => b.start_timestamp - a.start_timestamp)
 
     const card_list: JSX.Element[] = []
-    if (noPermissions) {
+    if (!location_permissions) {
         card_list.push(
             <Card style={{...styles.cardStyle, ...styles.errorCard}}>
                 <Card.Title 
@@ -30,9 +35,7 @@ function StartScreen({navigation}: {navigation: any}) {
                 </Card.Content>
             </Card>
         )
-    }
-
-    if (tracking_status) {
+    } else if (tracking_status) {
         card_list.push(
             <Card style={{...styles.cardStyle, ...styles.successCard}}>
                 <Card.Title 
@@ -42,10 +45,11 @@ function StartScreen({navigation}: {navigation: any}) {
                     left={() => <Icon name="location-arrow" size={24} color="#fff"/>}
                 />
                 <Card.Content>
-                    <Text style={{color: '#fff'}}>Die Aufzeichnung läuft gerade. In Kürze erscheint hier deine Fahrt! Du fährst gerade {current_speed} km/h</Text>
+                    <Text style={{color: '#fff'}}>Die Aufzeichnung läuft gerade. In Kürze erscheint hier deine Fahrt! Du fährst gerade {current_location && current_location.speed ? Math.floor(current_location.speed * 3.6) : 0} km/h</Text>
                 </Card.Content>
             </Card>
         )
+
     } else {
         card_list.push(
             <Card style={{...styles.cardStyle}}>
@@ -56,6 +60,21 @@ function StartScreen({navigation}: {navigation: any}) {
                 />
                 <Card.Content>
                     <Text>Alles bereit. Fahr einfach los und beginne eine Aufzeichnung automatisch!</Text>
+                </Card.Content>
+            </Card>
+        )
+    }
+
+    if (showDebugCard) {
+        card_list.push(
+            <Card style={{...styles.cardStyle, ...styles.successCard}}>
+                <Card.Title 
+                    title="Debug Infos" 
+                    titleVariant='headlineSmall' 
+                    titleStyle={{color: '#fff'}}
+                />
+                <Card.Content>
+                    <Text style={{color: '#fff'}}>{JSON.stringify(current_location)}</Text>
                 </Card.Content>
             </Card>
         )
@@ -84,7 +103,7 @@ const styles = StyleSheet.create({
     },
     cardStyle: {
         padding: 10,
-        marginBottom: 10,
+        marginBottom: 10
     },
     errorCard: {
         backgroundColor: '#D0342C',

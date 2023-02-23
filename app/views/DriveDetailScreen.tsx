@@ -2,7 +2,7 @@ import { Slider } from "@miblanchard/react-native-slider";
 import { useRoute } from "@react-navigation/native";
 import prettyMilliseconds from "pretty-ms";
 import React, { useState } from "react";
-import { Dimensions, StyleSheet, useWindowDimensions, View } from "react-native";
+import { useWindowDimensions, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { LineChart } from "react-native-gifted-charts";
 import { Text } from "react-native-paper";
@@ -25,7 +25,7 @@ function DriveDetailScreen() {
     const actualDuration = recordedTrack.locationHistory[recordedTrack.locationHistory.length - 1].timestamp - recordedTrack.locationHistory[0].timestamp
     let lastTimestamp = recordedTrack.locationHistory[0].timestamp
 
-    const [speedLimit, setSpeedLimit] = useState(130)
+    const [speedLimit, setSpeedLimit] = useState(130 > maxSpeed ? maxSpeed : 130)
     const simulatedDuration = recordedTrack.locationHistory
         .map(value => {
             const result = {speed: value.speed ? value.speed: 0, duration: value.timestamp - lastTimestamp}
@@ -78,7 +78,7 @@ function DriveDetailScreen() {
                         minimumValue={10}
                         step={10}
                         maximumValue={maxSpeed}
-                        value={speedLimit > maxSpeed ? maxSpeed : speedLimit}
+                        value={speedLimit}
                         onValueChange={value => setSpeedLimit(value as number)}
                     />
                 </View>

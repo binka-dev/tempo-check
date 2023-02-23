@@ -118,12 +118,7 @@ class LocationTracking {
                     console.log("Fastest speed in past minute: " + fastestSpeedInPastMinute)
                     if (fastestSpeedInPastMinute < 30 / 3.6) {
                         // The user has not been moving for the last minute
-                        console.log("Stopping exact tracking, starting unexact tracking again")
-                        const recordedTrack: RecordedTrack = {locationHistory: this._locationHistory, start_timestamp: this._locationHistory[0].timestamp}
-                        this._store.dispatch(disableTracking(recordedTrack));
-                        clearInterval(this._trackingId!)
-                        this._exactTracking = false;
-                        this._trackingId = null;
+                        this._stopExactTracking()
                         this.startTrackingIfNotAlreadyStarted();              
                     }
                 }, 
@@ -138,16 +133,24 @@ class LocationTracking {
 
     }
 
+    private _stopExactTracking() {
+        console.log("Stopping exact tracking")
+        const recordedTrack: RecordedTrack = {locationHistory: this._locationHistory, start_timestamp: this._locationHistory[0].timestamp}
+        this._store.dispatch(disableTracking(recordedTrack));
+        clearInterval(this._trackingId!)
+        this._exactTracking = false;
+        this._trackingId = null;
+    }
+
     public stopTracking() {
         if (this._trackingId != null) {
             console.log("Stopping tracking")
             if (this._exactTracking) {
-                clearInterval(this._trackingId);
+                this._stopExactTracking()
             } else {
                 Geolocation.clearWatch(this._trackingId);
+                this._trackingId = null;
             }
-            this._trackingId = null;
-            this._exactTracking = false;
         }
     }
 

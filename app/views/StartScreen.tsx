@@ -11,7 +11,7 @@ function StartScreen({navigation}: {navigation: any}) {
     useKeepAwake()
 
 
-    const showDebugCard = true
+    const showDebugCard = false
 
     const current_location = useAppSelector(state => state.location_tracking.current_location)
     const tracking_status = useAppSelector(state => state.location_tracking.tracking)

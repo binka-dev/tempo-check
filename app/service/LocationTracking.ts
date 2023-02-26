@@ -14,7 +14,6 @@ Geolocation.setRNConfiguration({
 
 const speed_threshold_in_meters = 30 / 3.6
 
-
 class LocationTracking {
     private _trackingId: number|null = null;
     private _store: Store;
@@ -156,8 +155,8 @@ class LocationTracking {
 
     private _fastestSpeedInPastMinutes(minutes: number) {
         const now = new Date().getTime();
-        const fiveMinutesAgo = now - minutes * 60 * 1000;
-        const filteredHistory = this._locationHistory.filter(location => location.timestamp > fiveMinutesAgo);
+        const minutesAgo = now - minutes * 60 * 1000;
+        const filteredHistory = this._locationHistory.filter(location => location.timestamp > minutesAgo);
         const speeds = filteredHistory.map(location => location.speed ?? 0);
         return Math.max(...speeds);
     }

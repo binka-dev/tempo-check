@@ -10,7 +10,9 @@ import RecordedTrack from "../models/RecordedTrack";
 import DriveTrackMapComponent from "./components/DriveTrackMapComponent";
 
 function DriveDetailScreen() {
+
     const route = useRoute<any>()
+    // Load recorded track from route params
     const recordedTrack: RecordedTrack = route.params!.recordedTrack
     const speedHistory = recordedTrack.locationHistory.map(location => {
         if (location.speed == null || location.speed <= 0) {
@@ -26,6 +28,8 @@ function DriveDetailScreen() {
     let lastTimestamp = recordedTrack.locationHistory[0].timestamp
 
     const [speedLimit, setSpeedLimit] = useState(130 > maxSpeed ? maxSpeed : 130)
+
+    // Calculate simulated duration
     const simulatedDuration = recordedTrack.locationHistory
         .map(value => {
             const result = {speed: value.speed ? value.speed: 0, duration: value.timestamp - lastTimestamp}
@@ -42,6 +46,7 @@ function DriveDetailScreen() {
             
         }, 0)
 
+    // Width is needed for line chart calculation
     const {height, width} = useWindowDimensions();
     return (
         <ScrollView>

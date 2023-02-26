@@ -8,17 +8,19 @@ import { useKeepAwake } from '@sayem314/react-native-keep-awake';
 
 function StartScreen({navigation}: {navigation: any}) {
 
+    // Keep screen awake
     useKeepAwake()
-
 
     const showDebugCard = false
 
+    // Get data from redux store
     const current_location = useAppSelector(state => state.location_tracking.current_location)
     const tracking_status = useAppSelector(state => state.location_tracking.tracking)
     const past_trips = useAppSelector(state => state.location_tracking.past_tracks)
     const location_permissions = useAppSelector(state => state.permissions.location_allowed)
     const past_trips_sorted = Array.from(past_trips).sort((a, b) => b.start_timestamp - a.start_timestamp)
 
+    // Add all cards which should be shown to this list
     const card_list: JSX.Element[] = []
     if (!location_permissions) {
         card_list.push(

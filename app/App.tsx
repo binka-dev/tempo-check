@@ -11,8 +11,10 @@ import { AppState } from 'react-native';
 
 function App(): JSX.Element {
 
+  // Controls wether a loading screen is shown or not
   const [loadingStore, setLoadingStore] = useState(true)
 
+  // Handle location tracking
   useEffect(() => {
     const locationTracking = new LocationTracking(store)
     if (AppState.currentState === 'active') {
@@ -32,6 +34,7 @@ function App(): JSX.Element {
     }
   }, []);
 
+  // Load previous tracks from storage
   useEffect( () => {
     AsyncStorage.getItem('past_tracks').then((past_tracks) => {
       if (past_tracks != null) {

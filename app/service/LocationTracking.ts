@@ -32,11 +32,18 @@ class LocationTracking {
                 PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION)]
             const result = await Promise.all(permission_promises)
             if (!result.every(permission => permission)) {
-                await PermissionsAndroid.requestMultiple([
+                this._store.dispatch(setLocationAllowed(false))
+                const request_result = await PermissionsAndroid.requestMultiple([
                     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
                     PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
                 ])
-            }
+                if (!result.every(permission => permission)) {
+                    this._store.dispatch(setLocationAllowed(false))
+                    return
+                } else {
+                    this._store.dispatch(setLocationAllowed(true))
+                }
+            } 
         } 
 
         if (this._trackingId == null) {

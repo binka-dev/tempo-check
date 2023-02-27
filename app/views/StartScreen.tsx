@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
-import { FlatList, Linking, SafeAreaView, StyleSheet } from 'react-native';
+import { FlatList, Linking, SafeAreaView, StyleSheet, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Card, Text } from 'react-native-paper';
 import { useAppSelector } from '../hooks';
 import DriveTrackCardComponent from './components/DriveTrackCardComponent';
 import { useKeepAwake } from '@sayem314/react-native-keep-awake';
+
+function openSettings() {
+    if (Platform.OS === 'ios') {
+        Linking.openURL('App-Prefs:LOCATION_SERVICES')
+    } else {
+        Linking.openSettings()
+    }
+}
 
 function StartScreen({navigation}: {navigation: any}) {
 
@@ -33,7 +41,7 @@ function StartScreen({navigation}: {navigation: any}) {
                 />
                 <Card.Content>
                     <Text style={{color: '#fff'}}>Um die App nutzen zu können, müssen Sie die Berechtigungen für die Ortungsfunktionen erteilen. Dies können Sie in den Einstellungen Ihres Handy machen.</Text>
-                    <Text style={{color: '#fff', marginTop: 10, fontWeight: 'bold'}} onPress={() => Linking.openURL('App-Prefs:LOCATION_SERVICES')}>Zu den Einstellungen</Text>
+                    <Text style={{color: '#fff', marginTop: 10, fontWeight: 'bold'}} onPress={openSettings}>Zu den Einstellungen</Text>
                 </Card.Content>
             </Card>
         )
